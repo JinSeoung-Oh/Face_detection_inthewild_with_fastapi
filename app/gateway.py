@@ -67,9 +67,9 @@ def gunicorn_run():
        "timeout" : 1500,
        "worker_class": "uvicorn.workers.UvicornWorker",
        "preload":True,
-       "reload": True,
-       "ssl_keyfile" : "./ml.crowdworks.kr/key_nopass.pem",
-       "ssl_certfile": "./ml.crowdworks.kr/star_crowdworks_kr_cert.crt"
+       "reload": True
+       #"ssl_keyfile" : 
+       #"ssl_certfile": 
        }
     gunicornApp("gateway:app", options).run()
        
