@@ -1,3 +1,10 @@
+base model : https://github.com/Media-Smart/vedadet/tree/main/configs/trainval/tinaface
+
+To run API, vedacore and vedadet file is needed.
+You can get these file from base model github
+
+To run API, just check app file
+
 ## Introduction
 vedadet is a single stage object detector toolbox based on PyTorch.
 
