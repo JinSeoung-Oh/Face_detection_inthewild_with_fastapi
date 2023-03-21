@@ -24,7 +24,7 @@ def upload_blob(bucket_name, file_path):
     
     return f"https://storage.googleapis.com/{bucket_name}/{destination_blob_name}"
 
-def convert_vaild_gcs_address_to_csv(addresses, file_dir):
+def convert_gcs_address_to_csv(addresses, file_dir):
     df_name = f"{file_dir}.csv"
     #print(addresses)          
     if len(addresses)<=1:
