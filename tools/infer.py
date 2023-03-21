@@ -11,6 +11,11 @@ from vedacore.parallel import collate, scatter
 from vedadet.datasets.pipelines import Compose
 from vedadet.engines import build_engine
 from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
+
+from gcs_upload import convert_gcs_address_to_csv, upload_blob
+from util import extract_zip, make_zip
 
 
 def parse_args():
@@ -105,6 +110,21 @@ def infer_face():
     result = engine.infer(data['img'], data['img_metas'])[0]
     result_json = {}
     result_json[name] = result
+    
+    plot_result(result, imgfp, class_names, outfp='out.jpg')    
+    
+    #make sucess file
+    out_files = make_dataset_folder(outfp)
+    num_converted_files = len(out_files)
+    make_zip(outfph, outfp)
+    out_files = make_dataset_folder(out_path)
+    threadworkers=None
+   
+    #upload sucess file & csv
+    with ThreadPoolExecutor(threadworkers) as pool:
+        gcs_addresses=list(pool.map(upload_blob,repeat(bucket_name), out_files))        
+    df_path_su=convert_vaild_gcs_address_to_csv(gcs_addresses,out_path)
+    csv_gcs_address=upload_blob(bucket_name, df_path_su)
     
     
     
