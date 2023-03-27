@@ -13,9 +13,12 @@ from vedadet.engines import build_engine
 from collections import OrderedDict
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import ProcessPoolExecutor
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 from gcs_upload import convert_gcs_address_to_csv, upload_blob
 from util import extract_zip, make_zip
+from celery import Celery
 
 
 def parse_args():
@@ -82,7 +85,12 @@ def make_dataset_folder(directory):
 
     return items
 
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis:redis:6379'
 
+papp = Celery('tasks', broker=CELERY_BROKER_URL, backend = CELERY_RESULT_BACKEND)
+
+@papp.task(name='tasks.face', bind=True)
 def infer_face():
 
     args = parse_args()
@@ -127,11 +135,10 @@ def infer_face():
     csv_gcs_address=upload_blob(bucket_name, df_path_su)
     
     
+    face_pts = jsonable_encoder(result_json)
+    print(time.time()-start_time)
     
-    #plot_result(result, imgname, class_names)
-    
-    return result_json
-
+    return JSONResponse(content=[face_pts]) 
 
 if __name__ == '__main__':
     main()
