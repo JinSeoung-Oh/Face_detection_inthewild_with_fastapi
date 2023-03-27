@@ -91,7 +91,7 @@ CELERY_RESULT_BACKEND = 'redis:redis:6379'
 papp = Celery('tasks', broker=CELERY_BROKER_URL, backend = CELERY_RESULT_BACKEND)
 
 @papp.task(name='tasks.face', bind=True)
-def infer_face():
+def infer_face(self, your_file_path):
 
     args = parse_args()
     cfg = Config.fromfile(args.config)
