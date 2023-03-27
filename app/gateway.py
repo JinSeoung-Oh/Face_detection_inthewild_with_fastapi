@@ -16,16 +16,13 @@ import numpy as np
 import open3d as o3d
 import shutil
 import pandas as pd
+from celery import Celery
 
 from google.cloud import storage
 from fastapi.middleware.cors import CORSMiddleware
 
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
-
 import torch
 from tools.infer import infer_face
 
@@ -83,7 +80,12 @@ def make_dataset_folder(directory):
     #print(f'Found {len(items)} folder imgs')
 
     return items 
-    
+
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis:redis:6379'
+
+papp = Celery('tasks', broker=CELERY_BROKER_URL, backend = CELERY_RESULT_BACKEND)
+
 @app.get("/")
 async def root():
     return {"message" : "face detection API page"}
@@ -103,14 +105,12 @@ async def sfa3d_vox(request: FromFrontendRequest,referer: Optional[str] = Header
     gcs_link = 'yout gcs_link'
     blobs = bucket.blob(gcs_link)
       
-    blobs.download_to_filename('file_path')
+    blobs.download_to_filename('your_file_path')
     
-    result_json = infer_face()
-    
-    face_pts = jsonable_encoder(result_json)
-    print(time.time()-start_time)
-    
-    return JSONResponse(content=[face_pts])
+    task = papp.send_task(name='tasks.face',
+                          args = ['your_file_path'],
+                          kwargs={})    
+    return task.id
     
 if __name__ == '__main__':         
     uvicorn.run("gateway:app",
