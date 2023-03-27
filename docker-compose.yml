@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .  
+      dockerfile: Dockerfile.app
+
+
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "celery"
+      - "redis"
+    restart: "always"
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    deploy:
+     replicas: 3
+     resources:
+      reservations:
+       cpus: '2'
+
+    depends_on:
+     - "redis"
+
+
+
+  redis:
+      image: redis:alpine
+      ports:
+        - "8081:8081"
+      restart: "always"
