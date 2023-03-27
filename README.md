@@ -6,6 +6,8 @@ You can get these file from base model github
 To run API, just check app file
 Pre-trained model can downloaded from base model github
 
+This code is not working(on purpose), if you want to work this have to change some code
+
 ## Introduction
 vedadet is a single stage object detector toolbox based on PyTorch.
 
