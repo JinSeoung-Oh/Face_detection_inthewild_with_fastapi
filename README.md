@@ -8,7 +8,7 @@ Pre-trained model can downloaded from base model github
 
 This code is not working(on purpose), if you want to work this have to change some code
 
-## [Notice] I added APP folder for making API and changed tools/infer.py line 78~94 and line 118~141. And I don't know how to notice about License, correctly. So, If you find any error about this, Plz let me know about it
+## [Notice] I added APP folder for making API and changed tools/infer.py line 78 - 94 and line 118 - 141. And I don't know how to notice about License, correctly. So, If you find any error about this, Plz let me know about it
 
 ## Introduction
 vedadet is a single stage object detector toolbox based on PyTorch.
