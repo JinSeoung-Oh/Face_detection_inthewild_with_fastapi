@@ -5,7 +5,6 @@ from typing import Optional
 import os
 
 import uvicorn
-import multiprocessing
 #from gunicorn.app.wsgiapp import WSGIApplication
 import json
 import time
@@ -13,7 +12,6 @@ import os
 #import logging
 import requests
 import numpy as np
-import open3d as o3d
 import shutil
 import pandas as pd
 from celery import Celery
