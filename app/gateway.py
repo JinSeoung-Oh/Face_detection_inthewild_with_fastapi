@@ -6,7 +6,6 @@ import os
 
 import uvicorn
 #from gunicorn.app.wsgiapp import WSGIApplication
-import json
 import time
 import os
 #import logging
@@ -20,7 +19,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-import torch
 from tools.infer import infer_face
 
 class FromFrontendRequest(BaseModel):
@@ -99,7 +97,7 @@ async def sfa3d_vox(request: FromFrontendRequest,referer: Optional[str] = Header
     #print(torch.cuda.is_available())
     storage_client = storage.Client.from_service_account_json('your service account json file path')
     bucket = stroage_client.get_bucket('your bucket name')
-    gcs_link = 'yout gcs_link'
+    gcs_link = 'your gcs_link'
     blobs = bucket.blob(gcs_link)
       
     blobs.download_to_filename('your_file_path')
