@@ -13,7 +13,6 @@ import os
 import requests
 import numpy as np
 import shutil
-import pandas as pd
 from celery import Celery
 
 from google.cloud import storage
