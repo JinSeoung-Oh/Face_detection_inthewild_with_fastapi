@@ -9,7 +9,7 @@ Pre-trained model can downloaded from base model github
 This code is not working(on purpose), if you want to work this have to change some code
 
 ##########################################################################################################
- Copyright 2022 The vedadet Authors. All Rights Reserved.
+ Copyright The vedadet Authors. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
